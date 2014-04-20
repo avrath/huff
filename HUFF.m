@@ -17,8 +17,8 @@ for i=1:length(index)
     posortowane_znaki{i}=znaki{index(i)};
 end
 
-ilosc_znakow
-posortowane_znaki
+%ilosc_znakow
+%posortowane_znaki
 
 drzewo = cell(length(ilosc_znakow), 1);
 
@@ -40,4 +40,4 @@ end
 
 kodowanie(drzewo, [])
 
-ZAKODOWANE_ZNAKI
+%ZAKODOWANE_ZNAKI

@@ -1,6 +1,6 @@
 function kodowanie(drzewo, znak)
 
-global ZAKODOWANE_ZNAKI
+global ZAKODOWANE_ZNAKI;
 global ii;
 
 if isa(drzewo, 'cell')   

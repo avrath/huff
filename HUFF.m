@@ -1,6 +1,10 @@
 clear all;
 tekst = input('tekst do zakodowania: ', 's'); 
 
+global ZAKODOWANE_ZNAKI    
+global ii
+ii=0;
+
 bez_powt=unique(tekst); 
     
 for i=1:length(bez_powt)    
@@ -15,3 +19,25 @@ end
 
 ilosc_znakow
 posortowane_znaki
+
+drzewo = cell(length(ilosc_znakow), 1);
+
+
+for i = 1:length(ilosc_znakow) 
+   drzewo{i} = i;              
+end
+
+
+while length(ilosc_znakow) > 2
+   [ilosc_znakow, index] = sort(ilosc_znakow);   
+   ilosc_znakow(2) = ilosc_znakow(1) + ilosc_znakow(2); 
+   ilosc_znakow(1) = [];           
+   
+   drzewo = drzewo(index);           
+   drzewo{2} = {drzewo{1}, drzewo{2}}; 
+   drzewo(1) = [];           
+end
+
+kodowanie(drzewo, [])
+
+ZAKODOWANE_ZNAKI

@@ -119,22 +119,21 @@ if (length(znakii)<2)                   %jeœli ci¹g ma 1 znak -> wszêdzie
     set(handles.odkodowany,'string','Za krotki kod!');
 else
     [kod,slownik,l_znak,znaki,odkod]=HUFF(znakii);  %wykonanie funkcji kodowania
-                                    %oraz zawartej na koñcu dekodowania                                                    %dekodowania
+                                                    %oraz zawartej na koñcu
+                                                    %dekodowania
     set(handles.kod,'String',cell2mat(kod));        %wyœwietlenie kodu
-    set(handles.odkodowany,'string',odkod);   
- 
-    for i=1:size(slownik,1)                         %ustalenie macierzy s³ownika oraz 
-                                                    %wpisanie w okno
+
+    for i=1:size(slownik,1)                         %ustalenie macierzy s³ownik
         sloownik{i}=[slownik{i,1},' -> ', slownik{i,2}];
     end
+
     set(handles.slownik,'String',sloownik);
-    
-    [H,efekt]=entropia(kod,l_znak,znaki,slownik);   %funkcja entropia oraz wpisanie zmiennych do okien
+    [H,efekt]=entropia(kod,l_znak,znaki,slownik);
     set(handles.entropia,'string',H);
     set(handles.efektywnosc,'string',efekt);
     set(handles.dl_kodu,'string',length(cell2mat(kod)));
     
-   
+    set(handles.odkodowany,'string',odkod);   
     
     clear all;
 end

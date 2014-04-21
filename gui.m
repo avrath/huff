@@ -1,4 +1,5 @@
 function varargout = gui(varargin)
+
 % GUI MATLAB code for gui.fig
 %      GUI, by itself, creates a new GUI or raises the existing
 %      singleton*.
@@ -22,7 +23,7 @@ function varargout = gui(varargin)
 
 % Edit the above text to modify the response to help gui
 
-% Last Modified by GUIDE v2.5 10-Apr-2014 15:23:09
+% Last Modified by GUIDE v2.5 11-Apr-2014 23:27:53
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -73,37 +74,18 @@ function varargout = gui_OutputFcn(hObject, eventdata, handles)
 varargout{1} = handles.output;
 
 
-% --- Executes on selection change in kod.
-function kod_Callback(hObject, eventdata, handles)
-% hObject    handle to kod (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: contents = cellstr(get(hObject,'String')) returns kod contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from kod
-
-
-% --- Executes during object creation, after setting all properties.
-function kod_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to kod (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: listbox controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
 
 
 
-function podaj_ciag_Callback(hObject, eventdata, handles)
+
+function podaj_ciag_Callback(hObject_podaj_ciag, eventdata, handles)
 % hObject    handle to podaj_ciag (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
 % Hints: get(hObject,'String') returns contents of podaj_ciag as text
 %        str2double(get(hObject,'String')) returns contents of podaj_ciag as a double
+
+
 
 
 % --- Executes during object creation, after setting all properties.
@@ -125,6 +107,36 @@ function generuj_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
+znakii=get(handles.podaj_ciag,'String');
+
+if (length(znakii)<2)
+    set(handles.kod,'string','Za krotki kod!');
+    set(handles.dl_kodu,'string','Za krotki kod!');
+    set(handles.entropia,'string','Za krotki kod!');
+    set(handles.efektywnosc,'string','Za krotki kod!');
+    set(handles.slownik,'string','Za krotki kod!');
+    set(handles.odkodowany,'string','Za krotki kod!');
+else
+
+    [kod,slownik,l_znak,znaki,odkod]=HUFF(znakii);
+    set(handles.kod,'String',cell2mat(kod));
+
+    for i=1:size(slownik,1)
+        sloownik{i}=[slownik{i,1},' -> ', slownik{i,2}];
+    end
+
+    set(handles.slownik,'String',sloownik);
+    [H,efekt]=entropia(kod,l_znak,znaki,slownik);
+    set(handles.entropia,'string',H);
+    set(handles.efektywnosc,'string',efekt);
+    set(handles.dl_kodu,'string',length(cell2mat(kod)));
+    
+    set(handles.odkodowany,'string',odkod);   
+    
+    clear all;
+end
+
+
 
 % --- Executes on button press in gneruj_slow.
 function gneruj_slow_Callback(hObject, eventdata, handles)
@@ -132,6 +144,8 @@ function gneruj_slow_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
+
+clear all;
 
 % --- Executes on selection change in odkodowany.
 function odkodowany_Callback(hObject, eventdata, handles)
@@ -154,3 +168,49 @@ function odkodowany_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+% --- Executes on selection change in kod.
+function kod_Callback(hObject_kod, eventdata, handles)
+% hObject    handle to kod (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns kod contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from kod
+
+
+% --- Executes during object creation, after setting all properties.
+function kod_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to kod (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: listbox controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on selection change in slownik.
+function slownik_Callback(hObject, eventdata, handles)
+% hObject    handle to slownik (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns slownik contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from slownik
+
+
+% --- Executes during object creation, after setting all properties.
+function slownik_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slownik (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: listbox controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+

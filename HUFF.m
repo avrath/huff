@@ -1,5 +1,6 @@
-clear all;
-tekst = input('tekst do zakodowania: ', 's'); 
+function [kod,slownik,l_znak,znaki,zdekodowany]=HUFF(tekst);
+%clear all;
+%tekst = input('tekst do zakodowania: ', 's'); 
 
 global ZAKODOWANE_ZNAKI    
 global ii
@@ -20,7 +21,7 @@ for i=1:length(index)
     posortowane_znaki{i}=znaki{index(i)};
 end
 
-
+l_znak=ilosc_znakow;
 
 
 drzewo = cell(length(ilosc_znakow), 1);
@@ -63,3 +64,15 @@ else
 end
 
 zdekodowany=dekodowanie(kod, posortowane_znaki);
+
+
+%%% ustalanie "s³ownika" zakodowanych znaków na podstawie wprowadzonego ci¹gu
+for i=1:length(l_znak)
+    l_znakk(i)={l_znak(i)};     %dopasowanie formatu macierzy
+end
+
+slownik(:,1)=(posortowane_znaki)';
+slownik(:,2)=(ZAKODOWANE_ZNAKI)';
+slownik(:,3)=(l_znakk);
+slownik;
+end

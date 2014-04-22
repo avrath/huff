@@ -1,4 +1,4 @@
-function [kod,slownik,l_znak,znaki,zdekodowany]=HUFF(tekst);
+function [kod,slownik,l_znak,znaki,zdekodowany]=HUFF(tekst)
 %clear all;
 %tekst = input('tekst do zakodowania: ', 's'); 
 
@@ -60,7 +60,7 @@ else
     %kod{i}=ZAKODOWANE_ZNAKI{i};
     end
     l_znak=1;
-    kod=ZAKODOWANE_ZNAKI
+    kod=ZAKODOWANE_ZNAKI;
 end
 
 zdekodowany=dekodowanie(kod, posortowane_znaki);

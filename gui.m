@@ -108,7 +108,7 @@ function generuj_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 znakii=get(handles.podaj_ciag,'String');    %pobranie wpisanego ci¹gu
-
+%{
 if (length(znakii)<2)                   %jeœli ci¹g ma 1 znak -> wszêdzie
                                         %komunikat o b³êdzie
     set(handles.kod,'string','Za krotki kod!');
@@ -118,7 +118,7 @@ if (length(znakii)<2)                   %jeœli ci¹g ma 1 znak -> wszêdzie
     set(handles.slownik,'string','Za krotki kod!');
     set(handles.odkodowany,'string','Za krotki kod!');
 else
-
+%}
     [kod,slownik,l_znak,znaki,odkod]=HUFF(znakii);  %wykonanie funkcji kodowania
                                     %oraz zawartej na koñcu dekodowania                                                    %dekodowania
     set(handles.kod,'String',cell2mat(kod));        %wyœwietlenie kodu
@@ -138,7 +138,7 @@ else
    
     
     clear all;
-end
+%end
 
 
 

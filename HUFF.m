@@ -63,6 +63,7 @@ else
     kod=ZAKODOWANE_ZNAKI;
 end
 
+znaki=posortowane_znaki;
 zdekodowany=dekodowanie(kod, posortowane_znaki);
 
 

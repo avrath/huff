@@ -120,7 +120,7 @@ function generuj_Callback(hObject, eventdata, handles)
     end
     set(handles.slownik,'String',sloownik);
     
-    [H,efekt]=entropia(kod,l_znak,znaki,slownik);   %funkcja entropia oraz wpisanie zmiennych do okien
+    [H,efekt]=entropia(l_znak,kod);   %funkcja entropia oraz wpisanie zmiennych do okien
     set(handles.entropia,'string',H);
     set(handles.efektywnosc,'string',efekt);
     set(handles.dl_kodu,'string',length(cell2mat(kod)));
@@ -137,11 +137,14 @@ function gneruj_slow_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 znaki=get(handles.podaj_ciag,'string');
-[odkod,kod]=DEF(znaki);
+[odkod,kod,l_znak]=DEF(znaki);
 set(handles.kod,'string',cell2mat(kod));
 set(handles.odkodowany,'string',odkod);
 set(handles.dl_kodu,'string',length(cell2mat(kod)));
-
+[H,efekt]=entropia(l_znak,kod);
+set(handles.entropia,'string',H);
+set(handles.efektywnosc,'string',efekt);
+set(handles.slownik,'string',' ');
 clear all;
 
 % --- Executes on selection change in odkodowany.

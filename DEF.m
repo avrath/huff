@@ -1,4 +1,4 @@
-function [zdekodowany,kod]=DEF(tekst)
+function [zdekodowany,kod,ilosc_znakow]=DEF(tekst)
 %clear all;
 %tekst = input('tekst do zakodowania: ', 's');
 global ZAKODOWANE_ZNAKI   
@@ -9,7 +9,7 @@ for i=1:length(bez_powt)
     ilosc_znakow(i) = length(find(tekst == bez_powt(i)));
     %znaki{i} = bez_powt(i);  
 end
-l_znak=ilosc_znakow;
+%l_znak=ilosc_znakow;
 
 znaki={'A' 'B' 'C' 'D' 'E' 'F' 'G' 'H' 'I' 'J' 'K' 'L' 'M' 'N' 'O' 'P' 'Q' 'R' 'S' 'T' 'U' 'V' 'W' 'X' 'Y' 'Z' 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 'u' 'v' 'w' 'x' 'y' 'z' '!' '"' '#' '$' '%' '&' '''' '(' ')' '^' '+' ',' '-' '.' '/' '0' '1' '2' '3' '4' '5' '6' '7' '8' '9' ':' ';' '<' '=' '>' '?' '@' ' '};
 ZAKODOWANE_ZNAKI={ 
@@ -103,7 +103,7 @@ ZAKODOWANE_ZNAKI={
 for i=1:length(tekst)              
     for k=1:length(znaki)          
         if znaki{k} == tekst(i)
-            kod{i} = ZAKODOWANE_ZNAKI{k};
+            kod{i} = ZAKODOWANE_ZNAKI{k}
             break
         end
     end

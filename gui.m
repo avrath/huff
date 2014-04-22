@@ -136,7 +136,11 @@ function gneruj_slow_Callback(hObject, eventdata, handles)
 % hObject    handle to gneruj_slow (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+znaki=get(handles.podaj_ciag,'string');
+[odkod,kod]=DEF(znaki);
+set(handles.kod,'string',cell2mat(kod));
+set(handles.odkodowany,'string',odkod);
+set(handles.dl_kodu,'string',length(cell2mat(kod)));
 
 clear all;
 

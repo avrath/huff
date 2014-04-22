@@ -1,4 +1,4 @@
-function [zdekodowany,kod]=DEF(tekst);
+function [zdekodowany,kod]=DEF(tekst)
 %clear all;
 %tekst = input('tekst do zakodowania: ', 's');
 global ZAKODOWANE_ZNAKI   

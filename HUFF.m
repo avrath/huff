@@ -59,7 +59,7 @@ else
     ZAKODOWANE_ZNAKI{i}=('1');  
     %kod{i}=ZAKODOWANE_ZNAKI{i};
     end
-    
+    l_znak=1;
     kod=ZAKODOWANE_ZNAKI
 end
 

@@ -7,7 +7,7 @@ global ii
 ii=0;
 
 
-bez_powt=unique(tekst);  
+bez_powt=unique(tekst);
 
 if (length(bez_powt)>1) 
     

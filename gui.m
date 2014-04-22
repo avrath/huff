@@ -107,18 +107,8 @@ function generuj_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-znakii=get(handles.podaj_ciag,'String');    %pobranie wpisanego ci¹gu
-%{
-if (length(znakii)<2)                   %jeœli ci¹g ma 1 znak -> wszêdzie
-                                        %komunikat o b³êdzie
-    set(handles.kod,'string','Za krotki kod!');
-    set(handles.dl_kodu,'string','Za krotki kod!');
-    set(handles.entropia,'string','Za krotki kod!');
-    set(handles.efektywnosc,'string','Za krotki kod!');
-    set(handles.slownik,'string','Za krotki kod!');
-    set(handles.odkodowany,'string','Za krotki kod!');
-else
-%}
+    znakii=get(handles.podaj_ciag,'String');    %pobranie wpisanego ci¹gu
+
     [kod,slownik,l_znak,znaki,odkod]=HUFF(znakii);  %wykonanie funkcji kodowania
                                     %oraz zawartej na koñcu dekodowania                                                    %dekodowania
     set(handles.kod,'String',cell2mat(kod));        %wyœwietlenie kodu
@@ -135,10 +125,8 @@ else
     set(handles.efektywnosc,'string',efekt);
     set(handles.dl_kodu,'string',length(cell2mat(kod)));
     
-   
-    
     clear all;
-%end
+
 
 
 

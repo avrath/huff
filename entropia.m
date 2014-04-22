@@ -8,7 +8,7 @@ for i=1:length(l_znak)
     H(i)=-(probab(i)*log2(probab(i)));
 end
 ll=sum(L);
-hh=sum(H);
+hh=abs(sum(H));
 %wyznaczenie efektywnosci ciagu kodowego
 efekt=(hh*100)/ll;
 

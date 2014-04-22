@@ -3,6 +3,14 @@ function [zdekodowany,kod]=DEF(tekst)
 %tekst = input('tekst do zakodowania: ', 's');
 global ZAKODOWANE_ZNAKI   
    
+bez_powt=unique(tekst); 
+    
+for i=1:length(bez_powt)    
+    ilosc_znakow(i) = length(find(tekst == bez_powt(i)));
+    %znaki{i} = bez_powt(i);  
+end
+l_znak=ilosc_znakow;
+
 znaki={'A' 'B' 'C' 'D' 'E' 'F' 'G' 'H' 'I' 'J' 'K' 'L' 'M' 'N' 'O' 'P' 'Q' 'R' 'S' 'T' 'U' 'V' 'W' 'X' 'Y' 'Z' 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 'u' 'v' 'w' 'x' 'y' 'z' '!' '"' '#' '$' '%' '&' '''' '(' ')' '^' '+' ',' '-' '.' '/' '0' '1' '2' '3' '4' '5' '6' '7' '8' '9' ':' ';' '<' '=' '>' '?' '@' ' '};
 ZAKODOWANE_ZNAKI={ 
     '10111110' 

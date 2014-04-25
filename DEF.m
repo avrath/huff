@@ -7,11 +7,11 @@ bez_powt=unique(tekst);
     
 for i=1:length(bez_powt)    
     ilosc_znakow(i) = length(find(tekst == bez_powt(i)));
-    %znaki{i} = bez_powt(i);  
+    znaki{i} = bez_powt(i);  
 end
 %l_znak=ilosc_znakow;
 
-znaki={'A' 'B' 'C' 'D' 'E' 'F' 'G' 'H' 'I' 'J' 'K' 'L' 'M' 'N' 'O' 'P' 'Q' 'R' 'S' 'T' 'U' 'V' 'W' 'X' 'Y' 'Z' 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 'u' 'v' 'w' 'x' 'y' 'z' '!' '"' '#' '$' '%' '&' '''' '(' ')' '^' '+' ',' '-' '.' '/' '0' '1' '2' '3' '4' '5' '6' '7' '8' '9' ':' ';' '<' '=' '>' '?' '@' ' '};
+znaki2={'A' 'B' 'C' 'D' 'E' 'F' 'G' 'H' 'I' 'J' 'K' 'L' 'M' 'N' 'O' 'P' 'Q' 'R' 'S' 'T' 'U' 'V' 'W' 'X' 'Y' 'Z' 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 'u' 'v' 'w' 'x' 'y' 'z' '!' '"' '#' '$' '%' '&' '''' '(' ')' '^' '+' ',' '-' '.' '/' '0' '1' '2' '3' '4' '5' '6' '7' '8' '9' ':' ';' '<' '=' '>' '?' '@' ' '};
 ZAKODOWANE_ZNAKI={ 
     '10111110' 
     '011000000'
@@ -101,13 +101,22 @@ ZAKODOWANE_ZNAKI={
     };
 
 for i=1:length(tekst)              
-    for k=1:length(znaki)          
-        if znaki{k} == tekst(i)
+    for k=1:length(znaki2)          
+        if znaki2{k} == tekst(i)
             kod{i} = ZAKODOWANE_ZNAKI{k}
             break
         end
     end
 end
 
-zdekodowany=dekodowanie(kod, znaki);
+for i=1:length(bez_powt)              
+    for k=1:length(znaki2)          
+        if znaki2{k} == bez_powt(i)
+            slownik{i} = ZAKODOWANE_ZNAKI{k};
+            break
+        end
+    end
+end
+
+zdekodowany=dekodowanie(kod, znaki2);
 end

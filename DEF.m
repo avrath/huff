@@ -1,4 +1,4 @@
-function [zdekodowany,kod,ilosc_znakow]=DEF(tekst)
+function [zdekodowany,kod,ilosc_znakow,znaki,slownik]=DEF(tekst)
 %clear all;
 %tekst = input('tekst do zakodowania: ', 's');
 global ZAKODOWANE_ZNAKI   
@@ -103,7 +103,7 @@ ZAKODOWANE_ZNAKI={
 for i=1:length(tekst)              
     for k=1:length(znaki2)          
         if znaki2{k} == tekst(i)
-            kod{i} = ZAKODOWANE_ZNAKI{k}
+            kod{i} = ZAKODOWANE_ZNAKI{k};
             break
         end
     end

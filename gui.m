@@ -137,7 +137,7 @@ function gneruj_slow_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 znaki=get(handles.podaj_ciag,'string');
-[odkod,kod,l_znak]=DEF(znaki);
+[odkod,kod,l_znak,symbole,ciagii]=DEF(znaki);
 set(handles.kod,'string',cell2mat(kod));
 set(handles.odkodowany,'string',odkod);
 set(handles.dl_kodu,'string',length(cell2mat(kod)));
@@ -145,6 +145,13 @@ set(handles.dl_kodu,'string',length(cell2mat(kod)));
 set(handles.entropia,'string',H);
 set(handles.efektywnosc,'string',efekt);
 set(handles.slownik,'string',' ');
+
+for i=1:length(symbole)                         %ustalenie macierzy s³ownika oraz 
+                                                    %wpisanie w okno
+        slownik{i}=[symbole{i},' -> ', ciagii{i}];
+    end
+    set(handles.slownik,'String',slownik);
+    
 clear all;
 
 % --- Executes on selection change in odkodowany.

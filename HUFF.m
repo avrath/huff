@@ -1,4 +1,4 @@
-function [kod,slownik,l_znak,znaki,zdekodowany]=HUFF(tekst)
+function [kod,slownik,zdekodowany]=HUFF(tekst)
 %clear all;
 %tekst = input('tekst do zakodowania: ', 's'); 
 

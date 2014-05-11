@@ -109,8 +109,9 @@ function generuj_Callback(hObject, eventdata, handles)
 
     znakii=get(handles.podaj_ciag,'String');    %pobranie wpisanego ci¹gu
 
-    [kod,slownik,l_znak,znaki,odkod]=HUFF(znakii);  %wykonanie funkcji kodowania
-                                    %oraz zawartej na koñcu dekodowania                                                    %dekodowania
+    [kod,slownik,odkod]=HUFF(znakii);  %wykonanie funkcji kodowania
+                                    %oraz zawartej na koñcu dekodowania
+                                    %dekodowania
     set(handles.kod,'String',cell2mat(kod));        %wyœwietlenie kodu
     set(handles.odkodowany,'string',odkod);   
  
@@ -120,7 +121,7 @@ function generuj_Callback(hObject, eventdata, handles)
     end
     set(handles.slownik,'String',sloownik);
     
-    [H,efekt]=entropia(l_znak,kod);   %funkcja entropia oraz wpisanie zmiennych do okien
+    [H,efekt]=entropia(slownik(:,[2:3]));   %funkcja entropia oraz wpisanie zmiennych do okien
     set(handles.entropia,'string',H);
     set(handles.efektywnosc,'string',efekt);
     set(handles.dl_kodu,'string',length(cell2mat(kod)));
@@ -138,10 +139,16 @@ function gneruj_slow_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 znaki=get(handles.podaj_ciag,'string');
 [odkod,kod,l_znak,symbole,ciagii]=DEF(znaki);
+
+slowniczek(:,1)=ciagii;         %%przygotowanie tablicy do przekazanai do funkcji entropia
+for i=1:length(l_znak)
+    slowniczek(i,2)={l_znak(i)};
+end
+
 set(handles.kod,'string',cell2mat(kod));
 set(handles.odkodowany,'string',odkod);
 set(handles.dl_kodu,'string',length(cell2mat(kod)));
-[H,efekt]=entropia(l_znak,kod);
+[H,efekt]=entropia(slowniczek);
 set(handles.entropia,'string',H);
 set(handles.efektywnosc,'string',efekt);
 set(handles.slownik,'string',' ');
@@ -149,7 +156,7 @@ set(handles.slownik,'string',' ');
 for i=1:length(symbole)                         %ustalenie macierzy s³ownika oraz 
                                                     %wpisanie w okno
         slownik{i}=[symbole{i},' -> ', ciagii{i}];
-    end
+end
     set(handles.slownik,'String',slownik);
     
 clear all;

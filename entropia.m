@@ -1,17 +1,15 @@
-function [ hh,efekt ] = entropia(l_znak,kod)
+function [ H,efekt ] = entropia(slownik)
 %wyliczenie wektora prawdopodobienstwa wystepowania znaku
-
-probab=((l_znak)./sum(l_znak));
-%obliczenie entropii oraz dlugosci kodu
-for i=1:length(l_znak)
-    L(i)=probab(i)*length(kod{i});
-    H(i)=-(probab(i)*log2(probab(i)));
+slownik
+probab=cell2mat(slownik(:,2))'
+probab=probab./sum(probab);
+L=0;H=0;
+for i=1:length(probab)
+    L=L+probab(i)*length(slownik{i,1});
+    H=H+-(probab(i)*log2(probab(i)));
 end
-L=sum(L);
-
-hh=sum(H);
 %wyznaczenie efektywnosci ciagu kodowego
-efekt=(hh*100)/L;
+efekt=(H*100)/L;
 
 end
 

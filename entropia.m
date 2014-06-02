@@ -1,7 +1,7 @@
-function [ H,efekt ] = entropia(slownik)
+function [ H,efekt,probab ] = entropia(slownik)
 %wyliczenie wektora prawdopodobienstwa wystepowania znaku
-slownik
-probab=cell2mat(slownik(:,2))'
+slownik;
+probab=cell2mat(slownik(:,2))';
 probab=probab./sum(probab);
 L=0;H=0;
 for i=1:length(probab)

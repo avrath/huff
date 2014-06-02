@@ -23,7 +23,7 @@ function varargout = gui(varargin)
 
 % Edit the above text to modify the response to help gui
 
-% Last Modified by GUIDE v2.5 11-Apr-2014 23:27:53
+% Last Modified by GUIDE v2.5 02-Jun-2014 11:09:25
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -114,15 +114,14 @@ function generuj_Callback(hObject, eventdata, handles)
                                     %dekodowania
     set(handles.kod,'String',cell2mat(kod));        %wyœwietlenie kodu
     set(handles.odkodowany,'string',odkod);   
- 
+    
+    [H,efekt,prawd]=entropia(slownik(:,[2:3]));   %funkcja entropia oraz wpisanie zmiennych do okien
     for i=1:size(slownik,1)                         %ustalenie macierzy s³ownika oraz 
                                                     %wpisanie w okno
-        sloownik{i}=[slownik{i,1},' -> ', slownik{i,2}];
+        sloownik{i}=[slownik{i,1},' (',sprintf('%.4f',prawd(i)),') -> ', slownik{i,2}];
     end
     set(handles.slownik,'String',sloownik);
     
-    [H,efekt]=entropia(slownik(:,[2:3]));   %funkcja entropia oraz wpisanie zmiennych do okien
-
     set(handles.entropia,'string',sprintf('%.3f',H));
     set(handles.efektywnosc,'string',sprintf('%.2f [%%]',efekt));
     set(handles.dl_kodu,'string',length(cell2mat(kod)));
@@ -149,14 +148,14 @@ end
 set(handles.kod,'string',cell2mat(kod));
 set(handles.odkodowany,'string',odkod);
 set(handles.dl_kodu,'string',length(cell2mat(kod)));
-[H,efekt]=entropia(slowniczek);
-set(handles.entropia,'string',H);
-set(handles.efektywnosc,'string',efekt);
+[H,efekt,prawd]=entropia(slowniczek);
+set(handles.entropia,'string',sprintf('%.3f',H));
+set(handles.efektywnosc,'string',sprintf('%.2f [%%]',efekt));
 set(handles.slownik,'string',' ');
 
 for i=1:length(symbole)                         %ustalenie macierzy s³ownika oraz 
                                                     %wpisanie w okno
-        slownik{i}=[symbole{i},' -> ', ciagii{i}];
+        slownik{i}=[symbole{i},' (',sprintf('%.3f',prawd(i)),') -> ', ciagii{i}];
 end
     set(handles.slownik,'String',slownik);
     
@@ -228,4 +227,3 @@ function slownik_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-

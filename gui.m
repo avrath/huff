@@ -23,7 +23,7 @@ function varargout = gui(varargin)
 
 % Edit the above text to modify the response to help gui
 
-% Last Modified by GUIDE v2.5 02-Jun-2014 11:09:25
+% Last Modified by GUIDE v2.5 02-Jun-2014 11:38:32
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -125,6 +125,8 @@ function generuj_Callback(hObject, eventdata, handles)
     set(handles.entropia,'string',sprintf('%.3f',H));
     set(handles.efektywnosc,'string',sprintf('%.2f [%%]',efekt));
     set(handles.dl_kodu,'string',length(cell2mat(kod)));
+    daneslow=get(handles.dslow,'String');
+ 
     
     clear all;
 
@@ -140,7 +142,7 @@ function gneruj_slow_Callback(hObject, eventdata, handles)
 znaki=get(handles.podaj_ciag,'string');
 [odkod,kod,l_znak,symbole,ciagii]=DEF(znaki);
 
-slowniczek(:,1)=ciagii;         %%przygotowanie tablicy do przekazanai do funkcji entropia
+slowniczek(:,1)=ciagii;         %%przygotowanie tablicy do przekazania do funkcji entropia
 for i=1:length(l_znak)
     slowniczek(i,2)={l_znak(i)};
 end
@@ -223,6 +225,29 @@ function slownik_CreateFcn(hObject, eventdata, handles)
 % handles    empty - handles not created until after all CreateFcns called
 
 % Hint: listbox controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function dslow_Callback(hObject, eventdata, handles)
+% hObject    handle to dslow (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of dslow as text
+%        str2double(get(hObject,'String')) returns contents of dslow as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function dslow_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to dslow (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');

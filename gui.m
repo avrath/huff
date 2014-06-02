@@ -22,7 +22,7 @@ function varargout = gui(varargin)
 
 % Edit the above text to modify the response to help gui
 
-% Last Modified by GUIDE v2.5 02-Jun-2014 12:31:23
+% Last Modified by GUIDE v2.5 02-Jun-2014 18:30:28
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -114,7 +114,10 @@ function generuj_Callback(hObject, eventdata, handles)
     set(handles.kod,'String',cell2mat(kod));        %wyœwietlenie kodu
     set(handles.odkodowany,'string',odkod);   
     
-    [H,efekt,prawd]=entropia(slownik(:,[2:3]));   %funkcja entropia oraz wpisanie zmiennych do okien
+    probab=cell2mat(slownik(:,3))';
+    probab=probab./sum(probab);
+
+    [H,efekt,prawd]=entropia(slownik(:,2),probab);   %funkcja entropia oraz wpisanie zmiennych do okien
     for i=1:size(slownik,1)                         %ustalenie macierzy s³ownika oraz 
                                                     %wpisanie w okno
         sloownik{i}=[slownik{i,1},' (',sprintf('%.4f',prawd(i)),') -> ', slownik{i,2}];
@@ -130,9 +133,6 @@ function generuj_Callback(hObject, eventdata, handles)
     clear all;
 
 
-
-
-
 % --- Executes on button press in gneruj_slow.
 function gneruj_slow_Callback(hObject, eventdata, handles)
 % hObject    handle to gneruj_slow (see GCBO)
@@ -145,18 +145,21 @@ slowniczek(:,1)=ciagii;         %%przygotowanie tablicy do przekazania do funkcj
 for i=1:length(l_znak)
     slowniczek(i,2)={l_znak(i)};
 end
-
+slowniczek
 set(handles.kod,'string',cell2mat(kod));
 set(handles.odkodowany,'string',odkod);
 set(handles.dl_kodu,'string',length(cell2mat(kod)));
-[H,efekt,prawd]=entropia(slowniczek);
+
+probab=cell2mat(slowniczek(:,2))';
+probab=probab./sum(probab);
+[H,efekt,prawd]=entropia(slowniczek(:,1),probab);
 set(handles.entropia,'string',sprintf('%.3f',H));
 set(handles.efektywnosc,'string',sprintf('%.2f [%%]',efekt));
 set(handles.slownik,'string',' ');
 
 for i=1:length(symbole)                         %ustalenie macierzy s³ownika oraz 
                                                     %wpisanie w okno
-        slownik{i}=[symbole{i},' (',sprintf('%.3f',prawd(i)),') -> ', ciagii{i}];
+        slownik{i}=[symbole{i},' (',sprintf('%.4f',prawd(i)),') -> ', ciagii{i}];
 end
     set(handles.slownik,'String',slownik);
     
@@ -168,29 +171,21 @@ function gen_slow_2_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 znaki=get(handles.podaj_ciag,'string');
-slownik=get(handles.slownik,'String');
-[kod,odkod]=DEF2(znaki,slownik);
-%{
-slowniczek(:,1)=ciagii;         %%przygotowanie tablicy do przekazania do funkcji entropia
-for i=1:length(l_znak)
-    slowniczek(i,2)={l_znak(i)};
+sloownik=get(handles.user_slow,'String');
+[kod,odkod,slownik]=DEF2(znaki,sloownik,handles.err);
+
+                     %%przygotowanie tablicy do przekazania do funkcji entropia
+for i=1:size(slownik,1)
+    slowniczek{i}=[slownik{i,1},' (',sprintf('%.4f',slownik{i,3}),') -> ', slownik{i,2}];
 end
-%}
+set(handles.slownik,'string',slowniczek);
 set(handles.kod,'string',cell2mat(kod));
 set(handles.odkodowany,'string',odkod);
 set(handles.dl_kodu,'string',length(cell2mat(kod)));
-%[H,efekt,prawd]=entropia(slowniczek);
-%set(handles.entropia,'string',sprintf('%.3f',H));
-%set(handles.efektywnosc,'string',sprintf('%.2f [%%]',efekt));
-%{
-set(handles.slownik,'string',' ');
+[H,efekt]=entropia(slownik(:,2),cell2mat(slownik(:,3))');
+set(handles.entropia,'string',sprintf('%.3f',H));
+set(handles.efektywnosc,'string',sprintf('%.2f [%%]',efekt));
 
-for i=1:length(symbole)                         %ustalenie macierzy s³ownika oraz 
-                                                    %wpisanie w okno
-        slownik{i}=[symbole{i},' (',sprintf('%.3f',prawd(i)),') -> ', ciagii{i}];
-end
-    set(handles.slownik,'String',slownik);
-%}    
 clear all;
 
 % --- Executes on button press in add_slow.
@@ -204,12 +199,12 @@ user_slow{licznik,1}=znak;
 prawdopodobienstwo=get(handles.prawdopodobienstwo,'String');
 user_slow{licznik,2}=prawdopodobienstwo;
 if licznik>1
-    slow=get(handles.slownik,'String');
+    slow=get(handles.user_slow,'String');
 end
-slow{licznik}=[user_slow{licznik,1},'->',user_slow{licznik,2}]
+slow{licznik}=[user_slow{licznik,1},' -> ',user_slow{licznik,2}]
 licznik=licznik+1;
 set(handles.licznik,'Value',(licznik)); 
-set(handles.slownik,'String',slow);
+set(handles.user_slow,'String',slow);
 
 
 % --- Executes on button press in clc_slow.
@@ -219,6 +214,7 @@ function clc_slow_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 set(handles.licznik,'Value',1);
 set(handles.slownik,'String','');
+clear all;
 
 
 
@@ -287,6 +283,29 @@ function prawdopodobienstwo_Callback(hObject, eventdata, handles)
 
 function prawdopodobienstwo_CreateFcn(hObject, eventdata, handles)
 
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on selection change in user_slow.
+function user_slow_Callback(hObject, eventdata, handles)
+% hObject    handle to user_slow (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns user_slow contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from user_slow
+
+
+% --- Executes during object creation, after setting all properties.
+function user_slow_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to user_slow (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: listbox controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end

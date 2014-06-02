@@ -1,17 +1,27 @@
-function [kod,zdekodowany]=DEF2(tekst,slownik)
+function [kod,zdekodowany,sloownik]=DEF2(tekst,slownik,handles)
  
 global ZAKODOWANE_ZNAKI       
 global ii
 ii=0;
-slownik
+slownik;
 for i=1:size(slownik,1)
     b=strsplit(slownik{i},'->');
     ilosc_znakow(i)=str2num(b{2});
     %bez_powt(i)=cellstr(b{1});
 end
+
+if (sum(ilosc_znakow)~=1)
+    ilosc_znakow(end+1)=(1-sum(ilosc_znakow));
+    tekst=strcat(tekst,'.');
+    set(handles,'string','Suma podanych prawdopodobieñstw ró¿na od 1. Dodajê "." ');
+else
+    set(handles,'string','');  
+end
+
+
 bez_powt=unique(tekst); 
 
-bez_powt %wektor wpisanych znakow 
+bez_powt; %wektor wpisanych znakow 
 ilosc_znakow %wektor prawdopodobienstw
 
 
@@ -77,9 +87,11 @@ zdekodowany=dekodowanie(kod, posortowane_znaki);
 for i=1:length(l_znak)
     l_znakk(i)={l_znak(i)};     %dopasowanie formatu macierzy
 end
-
-slownik(:,1)=(posortowane_znaki)';
-slownik(:,2)=(ZAKODOWANE_ZNAKI)';
-slownik(:,3)=(l_znakk);
-slownik;
+posortowane_znaki;
+ZAKODOWANE_ZNAKI;
+l_znakk;
+sloownik(:,1)=(posortowane_znaki)';
+sloownik(:,2)=(ZAKODOWANE_ZNAKI)';
+sloownik(:,3)=(l_znakk);
+sloownik;
 end

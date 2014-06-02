@@ -122,8 +122,9 @@ function generuj_Callback(hObject, eventdata, handles)
     set(handles.slownik,'String',sloownik);
     
     [H,efekt]=entropia(slownik(:,[2:3]));   %funkcja entropia oraz wpisanie zmiennych do okien
-    set(handles.entropia,'string',H);
-    set(handles.efektywnosc,'string',efekt);
+
+    set(handles.entropia,'string',sprintf('%.3f',H));
+    set(handles.efektywnosc,'string',sprintf('%.2f [%%]',efekt));
     set(handles.dl_kodu,'string',length(cell2mat(kod)));
     
     clear all;

@@ -1,5 +1,4 @@
 function varargout = gui(varargin)
-
 % GUI MATLAB code for gui.fig
 %      GUI, by itself, creates a new GUI or raises the existing
 %      singleton*.
@@ -23,7 +22,7 @@ function varargout = gui(varargin)
 
 % Edit the above text to modify the response to help gui
 
-% Last Modified by GUIDE v2.5 02-Jun-2014 11:38:32
+% Last Modified by GUIDE v2.5 02-Jun-2014 12:31:23
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -125,7 +124,7 @@ function generuj_Callback(hObject, eventdata, handles)
     set(handles.entropia,'string',sprintf('%.3f',H));
     set(handles.efektywnosc,'string',sprintf('%.2f [%%]',efekt));
     set(handles.dl_kodu,'string',length(cell2mat(kod)));
-    daneslow=get(handles.dslow,'String');
+    daneslow=get(handles.dslow,'String')
  
     
     clear all;
@@ -162,6 +161,66 @@ end
     set(handles.slownik,'String',slownik);
     
 clear all;
+
+% --- Executes on button press in gen_slow_2.
+function gen_slow_2_Callback(hObject, eventdata, handles)
+% hObject    handle to gen_slow_2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+znaki=get(handles.podaj_ciag,'string');
+slownik=get(handles.slownik,'String');
+[kod,odkod]=DEF2(znaki,slownik);
+%{
+slowniczek(:,1)=ciagii;         %%przygotowanie tablicy do przekazania do funkcji entropia
+for i=1:length(l_znak)
+    slowniczek(i,2)={l_znak(i)};
+end
+%}
+set(handles.kod,'string',cell2mat(kod));
+set(handles.odkodowany,'string',odkod);
+set(handles.dl_kodu,'string',length(cell2mat(kod)));
+%[H,efekt,prawd]=entropia(slowniczek);
+%set(handles.entropia,'string',sprintf('%.3f',H));
+%set(handles.efektywnosc,'string',sprintf('%.2f [%%]',efekt));
+%{
+set(handles.slownik,'string',' ');
+
+for i=1:length(symbole)                         %ustalenie macierzy s³ownika oraz 
+                                                    %wpisanie w okno
+        slownik{i}=[symbole{i},' (',sprintf('%.3f',prawd(i)),') -> ', ciagii{i}];
+end
+    set(handles.slownik,'String',slownik);
+%}    
+clear all;
+
+% --- Executes on button press in add_slow.
+function add_slow_Callback(hObject, eventdata, handles)
+% hObject    handle to add_slow (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+licznik=get(handles.licznik,'value')    
+znak=get(handles.znak,'String');
+user_slow{licznik,1}=znak;
+prawdopodobienstwo=get(handles.prawdopodobienstwo,'String');
+user_slow{licznik,2}=prawdopodobienstwo;
+if licznik>1
+    slow=get(handles.slownik,'String');
+end
+slow{licznik}=[user_slow{licznik,1},'->',user_slow{licznik,2}]
+licznik=licznik+1;
+set(handles.licznik,'Value',(licznik)); 
+set(handles.slownik,'String',slow);
+
+
+% --- Executes on button press in clc_slow.
+function clc_slow_Callback(hObject, eventdata, handles)
+% hObject    handle to clc_slow (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+set(handles.licznik,'Value',1);
+set(handles.slownik,'String','');
+
+
 
 % --- Executes on selection change in odkodowany.
 function odkodowany_Callback(hObject, eventdata, handles)
@@ -208,47 +267,26 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on selection change in slownik.
 function slownik_Callback(hObject, eventdata, handles)
-% hObject    handle to slownik (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 
-% Hints: contents = cellstr(get(hObject,'String')) returns slownik contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from slownik
-
-
-% --- Executes during object creation, after setting all properties.
 function slownik_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to slownik (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: listbox controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
 
+function znak_Callback(hObject, eventdata, handles)
 
-function dslow_Callback(hObject, eventdata, handles)
-% hObject    handle to dslow (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+function znak_CreateFcn(hObject, eventdata, handles)
 
-% Hints: get(hObject,'String') returns contents of dslow as text
-%        str2double(get(hObject,'String')) returns contents of dslow as a double
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
 
+function prawdopodobienstwo_Callback(hObject, eventdata, handles)
 
-% --- Executes during object creation, after setting all properties.
-function dslow_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to dslow (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
+function prawdopodobienstwo_CreateFcn(hObject, eventdata, handles)
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end

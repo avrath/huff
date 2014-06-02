@@ -1,12 +1,19 @@
-function [kod,slownik,zdekodowany]=HUFF(tekst)
+function [kod,zdekodowany]=DEF2(tekst,slownik)
  
 global ZAKODOWANE_ZNAKI       
 global ii
 ii=0;
-
+slownik
+for i=1:size(slownik,1)
+    b=strsplit(slownik{i},'->');
+    ilosc_znakow(i)=str2num(b{2});
+    bez_powt(i)=cellstr(b{1});
+end
 
 bez_powt %wektor wpisanych znakow 
 ilosc_znakow %wektor prawdopodobienstw
+
+
 
 if (length(bez_powt)>1) %dla kodu zawieraj¹cego te same znaki specjalny przypadek
     

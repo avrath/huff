@@ -124,7 +124,7 @@ function generuj_Callback(hObject, eventdata, handles)
     set(handles.entropia,'string',sprintf('%.3f',H));
     set(handles.efektywnosc,'string',sprintf('%.2f [%%]',efekt));
     set(handles.dl_kodu,'string',length(cell2mat(kod)));
-    daneslow=get(handles.dslow,'String')
+    
  
     
     clear all;

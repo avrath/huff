@@ -7,8 +7,9 @@ slownik
 for i=1:size(slownik,1)
     b=strsplit(slownik{i},'->');
     ilosc_znakow(i)=str2num(b{2});
-    bez_powt(i)=cellstr(b{1});
+    %bez_powt(i)=cellstr(b{1});
 end
+bez_powt=unique(tekst); 
 
 bez_powt %wektor wpisanych znakow 
 ilosc_znakow %wektor prawdopodobienstw

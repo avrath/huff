@@ -173,11 +173,20 @@ function gen_slow_2_Callback(hObject, eventdata, handles)
 znaki=get(handles.podaj_ciag,'string');
 sloownik=get(handles.user_slow,'String');
 [kod,odkod,slownik]=DEF2(znaki,sloownik,handles.err);
-
+if (cell2mat(kod) == 2)
+    set(handles.slownik,'string','');
+    set(handles.kod,'string','');
+    set(handles.odkodowany,'string','');
+    set(handles.dl_kodu,'string','');
+    set(handles.entropia,'string','');
+    set(handles.efektywnosc,'string','');
+    return;
+end
                      %%przygotowanie tablicy do przekazania do funkcji entropia
 for i=1:size(slownik,1)
     slowniczek{i}=[slownik{i,1},' (',sprintf('%.4f',slownik{i,3}),') -> ', slownik{i,2}];
 end
+
 set(handles.slownik,'string',slowniczek);
 set(handles.kod,'string',cell2mat(kod));
 set(handles.odkodowany,'string',odkod);

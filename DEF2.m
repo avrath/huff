@@ -11,10 +11,14 @@ for i=1:size(slownik,1)
 end
 
 if (sum(ilosc_znakow)~=1)
-    ilosc_znakow(end+1)=(1-sum(ilosc_znakow));
-    tekst=strcat(tekst,'.');
-    set(handles,'string','Suma podanych prawdopodobieñstw ró¿na od 1. Dodajê "." ');
+    set(handles,'visible','on');
+    set(handles,'string','Suma podanych prawdopodobieñstw ró¿na od 1. ');
+    kod={2};
+    zdekodowany=0;
+    sloownik=0;
+    return;
 else
+    set(handles,'visible','off');
     set(handles,'string','');  
 end
 

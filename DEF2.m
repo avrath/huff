@@ -1,13 +1,25 @@
 function [kod,zdekodowany,sloownik]=DEF2(tekst,slownik,handles)
  
+if (isempty(tekst))
+    set(handles,'visible','on');
+    set(handles,'string','Nie podano ¿adnego ci¹gu kodowego. ');
+    kod={2};
+    zdekodowany=0;
+    sloownik=0;
+    return;
+else
+    set(handles,'visible','off');
+    set(handles,'string','');  
+end    
+
+
 global ZAKODOWANE_ZNAKI       
 global ii
 ii=0;
-slownik;
 for i=1:size(slownik,1)
     b=strsplit(slownik{i},'->');
-    ilosc_znakow(i)=str2num(b{2});
-    %bez_powt(i)=cellstr(b{1});
+    ilosc_znakow(i)=str2num(b{2}); %wektor prawdopodobienstw
+    str(i)=cellstr(b{1});
 end
 
 if (sum(ilosc_znakow)~=1)
@@ -21,19 +33,24 @@ else
     set(handles,'visible','off');
     set(handles,'string','');  
 end
+uniq=unique(str);
+bez_powt=unique(tekst); %wektor wpisanych znakow 
 
-
-bez_powt=unique(tekst); 
-
-bez_powt; %wektor wpisanych znakow 
-ilosc_znakow %wektor prawdopodobienstw
-
-
-
+[n]=sprawdz(uniq,bez_powt,handles);
+if n~=0
+    set(handles,'visible','on');    
+    kod={2};
+    zdekodowany=0;
+    sloownik=0;
+    return;
+else
+    set(handles,'visible','off');
+end
+            
+       
 if (length(bez_powt)>1) %dla kodu zawieraj¹cego te same znaki specjalny przypadek
     
 for i=1:length(bez_powt)    
-    
     znaki{i} = bez_powt(i);  
 end
 
@@ -83,7 +100,6 @@ else          %wystepuje tylko 1 rodzaj znakow; przypadek specjalny
     kod=ZAKODOWANE_ZNAKI;
 end
 
-znaki=posortowane_znaki;
 zdekodowany=dekodowanie(kod, posortowane_znaki);
 
 
@@ -91,11 +107,9 @@ zdekodowany=dekodowanie(kod, posortowane_znaki);
 for i=1:length(l_znak)
     l_znakk(i)={l_znak(i)};     %dopasowanie formatu macierzy
 end
-posortowane_znaki;
-ZAKODOWANE_ZNAKI;
-l_znakk;
+
 sloownik(:,1)=(posortowane_znaki)';
 sloownik(:,2)=(ZAKODOWANE_ZNAKI)';
 sloownik(:,3)=(l_znakk);
-sloownik;
+
 end

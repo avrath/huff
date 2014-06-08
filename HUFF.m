@@ -1,5 +1,5 @@
 function [kod,slownik,zdekodowany]=HUFF(tekst)
- 
+
 global ZAKODOWANE_ZNAKI    %zmienne globalne potrzebne do wymiany danych z funckj¹ 'kodowanie'   
 global ii
 ii=0;
@@ -60,7 +60,6 @@ else          %wystepuje tylko 1 rodzaj znakow; przypadek specjalny
     kod=ZAKODOWANE_ZNAKI;
 end
 
-znaki=posortowane_znaki;
 zdekodowany=dekodowanie(kod, posortowane_znaki);
 
 
@@ -68,11 +67,9 @@ zdekodowany=dekodowanie(kod, posortowane_znaki);
 for i=1:length(l_znak)
     l_znakk(i)={l_znak(i)};     %dopasowanie formatu macierzy
 end
-posortowane_znaki
-ZAKODOWANE_ZNAKI
-l_znakk
+
 slownik(:,1)=(posortowane_znaki)';
 slownik(:,2)=(ZAKODOWANE_ZNAKI)';
 slownik(:,3)=(l_znakk);
-slownik
+
 end

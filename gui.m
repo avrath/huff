@@ -145,7 +145,6 @@ slowniczek(:,1)=ciagii;         %%przygotowanie tablicy do przekazania do funkcj
 for i=1:length(l_znak)
     slowniczek(i,2)={l_znak(i)};
 end
-slowniczek
 set(handles.kod,'string',cell2mat(kod));
 set(handles.odkodowany,'string',odkod);
 set(handles.dl_kodu,'string',length(cell2mat(kod)));
@@ -173,7 +172,7 @@ function gen_slow_2_Callback(hObject, eventdata, handles)
 znaki=get(handles.podaj_ciag,'string');
 sloownik=get(handles.user_slow,'String');
 [kod,odkod,slownik]=DEF2(znaki,sloownik,handles.err);
-if (cell2mat(kod) == 2)
+if (kod{1} == 2)
     set(handles.slownik,'string','');
     set(handles.kod,'string','');
     set(handles.odkodowany,'string','');
@@ -202,7 +201,7 @@ function add_slow_Callback(hObject, eventdata, handles)
 % hObject    handle to add_slow (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-licznik=get(handles.licznik,'value')    
+licznik=get(handles.licznik,'value');    
 znak=get(handles.znak,'String');
 user_slow{licznik,1}=znak;
 prawdopodobienstwo=get(handles.prawdopodobienstwo,'String');
@@ -210,7 +209,7 @@ user_slow{licznik,2}=prawdopodobienstwo;
 if licznik>1
     slow=get(handles.user_slow,'String');
 end
-slow{licznik}=[user_slow{licznik,1},' -> ',user_slow{licznik,2}]
+slow{licznik}=[user_slow{licznik,1},' -> ',user_slow{licznik,2}];
 licznik=licznik+1;
 set(handles.licznik,'Value',(licznik)); 
 set(handles.user_slow,'String',slow);
@@ -222,7 +221,7 @@ function clc_slow_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 set(handles.licznik,'Value',1);
-set(handles.slownik,'String','');
+set(handles.user_slow,'String','');
 clear all;
 
 

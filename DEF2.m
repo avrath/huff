@@ -1,17 +1,4 @@
 function [kod,zdekodowany,sloownik]=DEF2(tekst,slownik,handles)
- 
-if (isempty(tekst))
-    set(handles,'visible','on');
-    set(handles,'string','Nie podano ¿adnego ci¹gu kodowego. ');
-    kod={2};
-    zdekodowany=0;
-    sloownik=0;
-    return;
-else
-    set(handles,'visible','off');
-    set(handles,'string','');  
-end    
-
 
 global ZAKODOWANE_ZNAKI       
 global ii
@@ -23,28 +10,28 @@ for i=1:size(slownik,1)
 end
 
 if (sum(ilosc_znakow)~=1)
-    set(handles,'visible','on');
-    set(handles,'string','Suma podanych prawdopodobieñstw ró¿na od 1. ');
+    set(handles.err,'visible','on');
+    set(handles.err,'string','Suma podanych prawdopodobieñstw ró¿na od 1. ');
     kod={2};
     zdekodowany=0;
     sloownik=0;
     return;
 else
-    set(handles,'visible','off');
-    set(handles,'string','');  
+    set(handles.err,'visible','off');
+    set(handles.err,'string','');  
 end
 uniq=unique(str);
 bez_powt=unique(tekst); %wektor wpisanych znakow 
 
-[n]=sprawdz(uniq,bez_powt,handles);
+[n]=sprawdz(uniq,bez_powt,handles.err);
 if n~=0
-    set(handles,'visible','on');    
+    set(handles.err,'visible','on');    
     kod={2};
     zdekodowany=0;
     sloownik=0;
     return;
 else
-    set(handles,'visible','off');
+    set(handles.err,'visible','off');
 end
             
        

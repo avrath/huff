@@ -100,6 +100,7 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
+
 % --- Executes on button press in generuj.
 function generuj_Callback(hObject, eventdata, handles)
 % hObject    handle to generuj (see GCBO)
@@ -107,7 +108,14 @@ function generuj_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
     znakii=get(handles.podaj_ciag,'String');    %pobranie wpisanego ci¹gu
-
+    if isempty(znakii)
+        zeruj(handles);
+        set(handles.err,'visible','on');
+        set(handles.err,'string','Nie podano ¿adnego ci¹gu kodowego');
+        return;
+    else
+        set(handles.err,'visible','off');
+    end
     [kod,slownik,odkod]=HUFF(znakii);  %wykonanie funkcji kodowania
                                     %oraz zawartej na koñcu dekodowania
                                     %dekodowania
@@ -139,6 +147,15 @@ function gneruj_slow_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 znaki=get(handles.podaj_ciag,'string');
+if isempty(znaki)
+    zeruj(handles);
+    set(handles.err,'visible','on');
+    set(handles.err,'string','Nie podano ¿adnego ci¹gu kodowego');
+    return;
+else
+    set(handles.err,'visible','off');
+end
+
 [odkod,kod,l_znak,symbole,ciagii]=DEF(znaki);
 
 slowniczek(:,1)=ciagii;         %%przygotowanie tablicy do przekazania do funkcji entropia
@@ -171,14 +188,25 @@ function gen_slow_2_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 znaki=get(handles.podaj_ciag,'string');
 sloownik=get(handles.user_slow,'String');
-[kod,odkod,slownik]=DEF2(znaki,sloownik,handles.err);
+if isempty(znaki)
+    zeruj(handles);
+    set(handles.err,'visible','on');
+    set(handles.err,'string','Nie podano ¿adnego ci¹gu kodowego');
+    return;
+else
+    set(handles.err,'visible','off');
+end
+if (isempty(sloownik) && ~isempty(znaki))
+    zeruj(handles);
+    set(handles.err,'visible','on');
+    set(handles.err,'string','S³ownik jest pusty');
+    return;
+else
+    set(handles.err,'visible','off');
+end
+[kod,odkod,slownik]=DEF2(znaki,sloownik,handles);
 if (kod{1} == 2)
-    set(handles.slownik,'string','');
-    set(handles.kod,'string','');
-    set(handles.odkodowany,'string','');
-    set(handles.dl_kodu,'string','');
-    set(handles.entropia,'string','');
-    set(handles.efektywnosc,'string','');
+    zeruj(handles);
     return;
 end
                      %%przygotowanie tablicy do przekazania do funkcji entropia

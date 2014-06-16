@@ -107,38 +107,35 @@ function generuj_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-    znakii=get(handles.podaj_ciag,'String');    %pobranie wpisanego ci¹gu
-    if isempty(znakii)
-        zeruj(handles);
-        set(handles.err,'visible','on');
-        set(handles.err,'string','Nie podano ¿adnego ci¹gu kodowego');
-        return;
-    else
-        set(handles.err,'visible','off');
-    end
-    [kod,slownik,odkod]=HUFF(znakii);  %wykonanie funkcji kodowania
+znakii=get(handles.podaj_ciag,'String');    %pobranie wpisanego ci¹gu
+if isempty(znakii)                          %sprawdzenie czy podano ci¹g, wywo³anie funkcji
+    zeruj(handles);                         %czyszcz¹cej wszelkie pola i wyœwietlenie b³êdu
+    set(handles.err,'visible','on');
+    set(handles.err,'string','Nie podano ¿adnego ci¹gu kodowego');
+    return;
+else
+    set(handles.err,'visible','off');
+end
+[kod,slownik,odkod]=HUFF(znakii);  %wykonanie funkcji kodowania
                                     %oraz zawartej na koñcu dekodowania
                                     %dekodowania
-    set(handles.kod,'String',cell2mat(kod));        %wyœwietlenie kodu
-    set(handles.odkodowany,'string',odkod);   
+set(handles.kod,'String',cell2mat(kod));        %wyœwietlenie kodu
+set(handles.odkodowany,'string',odkod);   
     
-    probab=cell2mat(slownik(:,3))';
-    probab=probab./sum(probab);
+probab=cell2mat(slownik(:,3))';
+probab=probab./sum(probab);
 
-    [H,efekt,prawd]=entropia(slownik(:,2),probab);   %funkcja entropia oraz wpisanie zmiennych do okien
-    for i=1:size(slownik,1)                         %ustalenie macierzy s³ownika oraz 
+[H,efekt]=entropia(slownik(:,2),probab);   %funkcja entropia oraz wpisanie zmiennych do okien
+for i=1:size(slownik,1)                         %ustalenie macierzy s³ownika oraz 
                                                     %wpisanie w okno
-        sloownik{i}=[slownik{i,1},' (',sprintf('%.4f',prawd(i)),') -> ', slownik{i,2}];
-    end
-    set(handles.slownik,'String',sloownik);
+    sloownik{i}=[slownik{i,1},' (',sprintf('%.4f',probab(i)),') -> ', slownik{i,2}];
+end
+set(handles.slownik,'String',sloownik);   
+set(handles.entropia,'string',sprintf('%.3f',H));
+set(handles.efektywnosc,'string',sprintf('%.2f [%%]',efekt));
+set(handles.dl_kodu,'string',length(cell2mat(kod)));
     
-    set(handles.entropia,'string',sprintf('%.3f',H));
-    set(handles.efektywnosc,'string',sprintf('%.2f [%%]',efekt));
-    set(handles.dl_kodu,'string',length(cell2mat(kod)));
-    
- 
-    
-    clear all;
+clear all;
 
 
 % --- Executes on button press in gneruj_slow.
@@ -146,9 +143,9 @@ function gneruj_slow_Callback(hObject, eventdata, handles)
 % hObject    handle to gneruj_slow (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-znaki=get(handles.podaj_ciag,'string');
-if isempty(znaki)
-    zeruj(handles);
+znaki=get(handles.podaj_ciag,'string'); 
+if isempty(znaki)                       
+    zeruj(handles);                     
     set(handles.err,'visible','on');
     set(handles.err,'string','Nie podano ¿adnego ci¹gu kodowego');
     return;
@@ -158,24 +155,22 @@ end
 
 [odkod,kod,l_znak,symbole,ciagii]=DEF(znaki);
 
-slowniczek(:,1)=ciagii;         %%przygotowanie tablicy do przekazania do funkcji entropia
+slowniczek(1,:)=ciagii;         %%przygotowanie macierzy do przekazania do funkcji entropia
 for i=1:length(l_znak)
     slowniczek(i,2)={l_znak(i)};
 end
-set(handles.kod,'string',cell2mat(kod));
+set(handles.kod,'string',cell2mat(kod));    %wyœwietlenie danych na ekran
 set(handles.odkodowany,'string',odkod);
 set(handles.dl_kodu,'string',length(cell2mat(kod)));
 
-probab=cell2mat(slowniczek(:,2))';
+probab=cell2mat(slowniczek(:,2))';  %obliczanie prawdopodobieñstwa wyst¹pieñ znaków
 probab=probab./sum(probab);
-[H,efekt,prawd]=entropia(slowniczek(:,1),probab);
-set(handles.entropia,'string',sprintf('%.3f',H));
-set(handles.efektywnosc,'string',sprintf('%.2f [%%]',efekt));
-set(handles.slownik,'string',' ');
+set(handles.entropia,'string','');
+set(handles.efektywnosc,'string','');
 
 for i=1:length(symbole)                         %ustalenie macierzy s³ownika oraz 
                                                     %wpisanie w okno
-        slownik{i}=[symbole{i},' (',sprintf('%.4f',prawd(i)),') -> ', ciagii{i}];
+        slownik{i}=[symbole{i},' (',sprintf('%.4f',probab(i)),') -> ', ciagii{i}];
 end
     set(handles.slownik,'String',slownik);
     
@@ -196,16 +191,16 @@ if isempty(znaki)
 else
     set(handles.err,'visible','off');
 end
-if (isempty(sloownik) && ~isempty(znaki))
-    zeruj(handles);
+if (isempty(sloownik) && ~isempty(znaki))       %sprawdzenie czy zosta³y wprowadzone dane do s³ownika
+    zeruj(handles);                             %jeœli nie - wywo³anie funkcji jak poprzednio.
     set(handles.err,'visible','on');
     set(handles.err,'string','S³ownik jest pusty');
     return;
 else
     set(handles.err,'visible','off');
 end
-[kod,odkod,slownik]=DEF2(znaki,sloownik,handles);
-if (kod{1} == 2)
+[kod,odkod,slownik]=DEF2(znaki,sloownik,handles);   %wykonanie funkcji koduj¹cej i odkodowuj¹cej
+if (kod{1} == 2)                    %oraz sprawdzenie, czy funkcja zosta³a zakoñczona poprawnie
     zeruj(handles);
     return;
 end
@@ -229,10 +224,10 @@ function add_slow_Callback(hObject, eventdata, handles)
 % hObject    handle to add_slow (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-licznik=get(handles.licznik,'value');    
+licznik=get(handles.licznik,'value');  
 znak=get(handles.znak,'String');
-user_slow{licznik,1}=znak;
-prawdopodobienstwo=get(handles.prawdopodobienstwo,'String');
+user_slow{licznik,1}=znak;      %pobranie znaku i jego prawdopodobieñstwa oraz dodanie
+prawdopodobienstwo=get(handles.prawdopodobienstwo,'String');    %do w³aœciwego s³ownika
 user_slow{licznik,2}=prawdopodobienstwo;
 if licznik>1
     slow=get(handles.user_slow,'String');
@@ -249,7 +244,7 @@ function clc_slow_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 set(handles.licznik,'Value',1);
-set(handles.user_slow,'String','');
+set(handles.user_slow,'String','');     %wyczyszczenie s³ownika wprowadzonych danych
 clear all;
 
 

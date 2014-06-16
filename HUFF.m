@@ -71,5 +71,4 @@ end
 slownik(:,1)=(posortowane_znaki)';
 slownik(:,2)=(ZAKODOWANE_ZNAKI)';
 slownik(:,3)=(l_znakk);
-
 end

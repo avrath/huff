@@ -3,14 +3,25 @@ function [zdekodowany,kod,ilosc_znakow,znaki,slownik]=DEF(tekst)
 global ZAKODOWANE_ZNAKI   %zmienne globalne potrzebne do wymiany danych z funckj¹ 'kodowanie'
    
 bez_powt=unique(tekst); 
-    
+
 for i=1:length(bez_powt)    
     ilosc_znakow(i) = length(find(tekst == bez_powt(i)));
-    znaki{i} = bez_powt(i);  
+    znaki{i} = bez_powt(i);
 end
+
+
+
 
 %znaki, ktore moga wystapic
 znaki2={'A' 'B' 'C' 'D' 'E' 'F' 'G' 'H' 'I' 'J' 'K' 'L' 'M' 'N' 'O' 'P' 'Q' 'R' 'S' 'T' 'U' 'V' 'W' 'X' 'Y' 'Z' 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 'u' 'v' 'w' 'x' 'y' 'z' '!' '"' '#' '$' '%' '&' '''' '(' ')' '^' '+' ',' '-' '.' '/' '0' '1' '2' '3' '4' '5' '6' '7' '8' '9' ':' ';' '<' '=' '>' '?' '@' ' '};
+pozycja=0;
+for i=1:length(bez_powt)
+    for j=1:length(znaki2)
+        if strcmp(znaki(i),znaki2(j))
+            pozycja(i)=j;
+        end
+    end
+end
 
 %kody kolejnych znakow, ktore moga wystapic
 ZAKODOWANE_ZNAKI={ 
@@ -113,11 +124,10 @@ end
 for i=1:length(bez_powt)           %towrzenie slownika wystepujacych w tekscie znakow
     for k=1:length(znaki2)          
         if znaki2{k} == bez_powt(i)
-            slownik{i} = ZAKODOWANE_ZNAKI{k};
+            slownik{1,i} = ZAKODOWANE_ZNAKI{k};
             break
         end
     end
 end
-
 zdekodowany=dekodowanie(kod, znaki2);
 end

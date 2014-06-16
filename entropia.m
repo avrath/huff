@@ -1,6 +1,5 @@
-function [ H,efekt,probab ] = entropia(slownik,probab)
-%wyliczenie wektora prawdopodobienstwa wystepowania znaku
-L=0;
+function [ H,efekt] = entropia(slownik,probab)
+L=0;    %wstêpne zdefiniowanie entropii i d³ugoœci kodu, a nastêpnie wyliczenie tych wartoœci
 H=0;
 for i=1:length(probab)
     L=L+probab(i)*length(slownik{i,1});
